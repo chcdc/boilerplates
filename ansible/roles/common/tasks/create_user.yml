@@ -1,0 +1,26 @@
+---
+- name: Ensure group "{{ user_groups }}" exists
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ user_groups }}"
+
+- name: Create a user {{ user }}
+  ansible.builtin.user:
+    name: "{{ user }}"
+    password: "{{ upass | password_hash('sha512') }}"
+    shell: /bin/bash
+    groups: "{{ item }}"
+    append: yes
+    system: no
+    update_password: always    
+    generate_ssh_key: yes
+    ssh_key_bits: "{{ ssh_key_bits }}"
+    ssh_key_file: .ssh/id_rsa
+  loop: "{{ user_groups }}"
+
+- name: Set authorized key took from file
+  authorized_key:
+    user: "{{ user }}"
+    state: present
+    key: "{{ lookup('file', '{{local_ssh_key_pub}}') }}"

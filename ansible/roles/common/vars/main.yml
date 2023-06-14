@@ -1,0 +1,26 @@
+local_user: <local_user>
+local_ssh_key_pub: "/home/{{local_user}}/.ssh/id_rsa.pub"
+
+timezone: America/Sao_Paulo
+
+
+user: <user>
+upass: <pass>
+
+user_groups:
+  - sudo
+  - <another group>
+
+ssh_key_bits: 4096
+
+applications:
+  - rsyslog
+  - lsb-release
+  - sudo
+  - vim
+  - curl
+  - python3
+  - python3-pip
+  - apt-transport-https
+  - unzip
+  - git
